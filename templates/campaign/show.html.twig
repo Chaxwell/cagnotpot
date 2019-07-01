@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    |
+    {{ campaign.title }}
+{% endblock %}
+
+{% block body %}
+    <div class="parallax-container valign-wrapper">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <h1 class="header center white-text light">{{ campaign.title }}</h1>
+                <div class="row center">
+                    <h5 class="header col s12 light">- Organisée par :
+                        {{ campaign.author }}
+                        -</h5>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img alt="{{ campaign.title }}" src="{{ asset('assets/images/8.jpg') }}"></div>
+    </div>
+
+    <!-- Show progress -->
+    <section class="progress-section">
+        <div class="progress">
+            {% if objectivePurcentage > 100 %}
+                <div class="determinate" style="width: 100%">
+                    <span>{{ objectivePurcentage }}% de l'objectif</span>
+                </div>
+            {% else %}
+                <div class="determinate" style="width: {{ objectivePurcentage }}%">
+                    <span>{{ objectivePurcentage }}% de l'objectif</span>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <div class="container participe">
+        <div
+            class="section">
+            <!-- Participation section -->
+            <div class="row">
+                <div class="card col s12 m12 l8 offset-l2">
+                    <div class="card-content">
+                        <form action="{{ path('payment_new', {id: campaign.id}) }}" method="POST">
+                            <div class="input-field col s12 l6">
+                                <input class="validate" id="amount" name="amount" type="number">
+                                <label for="amount">Votre participation</label>
+                            </div>
+                            <button class="btn-large waves-effect waves-light pink lighten-1 col s12 l6" type="submit">
+                                Participer
+                            </button>
+                        </form>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s12 center">
+                    <h4>A propos de la campagne</h4>
+                </div>
+            </div>
+            <!--   Icon Section   -->
+            <div class="row">
+                <div class="col s12 m6 l3 offset-l3">
+                    <div class="icon-block center">
+                        <div class="btn-large btn-floating white">
+                            <i class="material-icons teal-text">person</i>
+                        </div>
+                        <h3 class="center">{{ totalParticipants }}</h3>
+                        <p class="light">Participants</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l3">
+                    <div class="icon-block center">
+                        <div class="btn-large btn-floating white">
+                            <i class="material-icons teal-text">redeem</i>
+                        </div>
+                        <h3 class="center">{{ totalAmount }}</h3>
+                        <p class="light">euros récoltés</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Form section -->
+            <div class="row">
+                <form>
+                    <div class="input-field col s12">
+                        <label for="description">Description</label>
+                        <textarea class="materialize-textarea" id="description" readonly="readonly">{{ campaign.content }}</textarea>
+                    </div>
+                    <div class="input-field col s12 l6">
+                        <input id="goal" readonly="readonly" type="number" value="{{ campaign.goal }}">
+                        <label for="goal">Objectif</label>
+                    </div>
+                    <div class="col s12 l6 offset-l3">
+                        <a class="btn btn-large waves-effect waves-light col s12" name="action" href="{{ path('campaign_edit', {id: campaign.id}) }}">
+                            Modifiez la campagne
+                            <i class="material-icons right">edit</i>
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <!-- List -->
+            <div class="row">
+                <div class="col s12 center">
+                    <h4>Liste des participants</h4>
+                </div>
+                <div class="col s12">
+                    <table class="highlight responsive-table">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Participation</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for participant in participants %}
+                                <tr>
+                                    {% if participant.hide_identity %}
+                                        <td>
+                                            <i class="grey-text">Masqué</i>
+                                        </td>
+                                    {% else %}
+                                        <td>{{ participant.email }}</td>
+                                    {% endif %}
+
+                                    {% if participant.hide_amount %}
+                                        <td>
+                                            <i class="grey-text">Masquée</i>
+                                        </td>
+                                    {% else %}
+                                        <td>{{ participant.amount }}€</td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="navigation">
+                        {{ knp_pagination_render(participants) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax-container valign-wrapper">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <div class="row center">
+                    <h4 class="header col s12 light">Une campagne pensée pour vous<br>et pour toutes les occasions</h4>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img alt="Une campagne pensée pour vous" src="{{ asset('assets/images/10.jpg') }}"></div>
+    </div>
+{% endblock %}

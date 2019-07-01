@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    | Modifier
+    {{ campaign.title }}
+{% endblock %}
+
+{% block body %}
+    <div class="parallax-container valign-wrapper">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <a href="{{ path('campaign_show', {id: campaign.id}) }}">
+                    <h1 class="header center white-text light">{{ campaign.title }}</h1>
+                </a>
+                <div class="row center">
+                    <h5 class="header col s12 light">- Organisée par :
+                        {{ campaign.author }}
+                        -</h5>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img alt="{{ campaign.title }}" src="{{ asset('assets/images/8.jpg') }}"></div>
+    </div>
+
+    <!-- Show progress -->
+    <section class="progress-section">
+        <div class="progress">
+            {% if objectivePurcentage > 100 %}
+                <div class="determinate" style="width: 100%">
+                    <span>{{ objectivePurcentage }}% de l'objectif</span>
+                </div>
+            {% else %}
+                <div class="determinate" style="width: {{ objectivePurcentage }}%">
+                    <span>{{ objectivePurcentage }}% de l'objectif</span>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
+    <div class="container participe">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 center">
+                    <h4>A propos de la campagne</h4>
+                </div>
+            </div>
+            <!--   Icon Section   -->
+            <div class="row">
+                <div class="col s12 m6 l3 offset-l3">
+                    <div class="icon-block center">
+                        <div class="btn-large btn-floating white">
+                            <i class="material-icons teal-text">person</i>
+                        </div>
+                        <h3 class="center">{{ totalParticipants }}</h3>
+                        <p class="light">Participants</p>
+                    </div>
+                </div>
+
+                <div class="col s12 m6 l3">
+                    <div class="icon-block center">
+                        <div class="btn-large btn-floating white">
+                            <i class="material-icons teal-text">redeem</i>
+                        </div>
+                        <h3 class="center">{{ totalAmount }}</h3>
+                        <p class="light">euros récoltés</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Form section -->
+            <div class="row">
+                {{ form_start(form) }}
+                <div class="input-field col s12">
+                    {{ form_label(form.content, 'Description') }}
+                    {{ form_widget(form.content, {attr: {class: 'materialize-textarea'} }) }}
+                </div>
+                <div class="input-field col s12 l6">
+                    <a class="btn btn-large waves-effect waves-light col s12" href="{{ path('campaign_show', {id: campaign.id}) }}">
+                        Annuler
+                    </a>
+                </div>
+                <div class="input-field col s12 l6">
+                    <button class="btn btn-large waves-effect waves-light col s12" type="submit">
+                        Modifiez la campagne
+                        <i class="material-icons right">edit</i>
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="parallax-container valign-wrapper">
+        <div class="section no-pad-bot">
+            <div class="container">
+                <div class="row center">
+                    <h4 class="header col s12 light">Une campagne pensée pour vous<br>et pour toutes les occasions</h4>
+                </div>
+            </div>
+        </div>
+        <div class="parallax"><img alt="Une campagne pensée pour vous" src="{{ asset('assets/images/10.jpg') }}"></div>
+    </div>
+{% endblock %}

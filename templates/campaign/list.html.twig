@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }}
+    | Campagnes
+{% endblock %}
+
+{% block body %}
+    <h1 class="center">Les campagnes actives</h1>
+
+    <div class="container center">
+        <table class="table striped highlight centered responsive-table">
+            <thead>
+                <tr>
+                    <th>Titre de la campagne</th>
+                    <th>Description</th>
+                    <th>Objectif</th>
+                    <th>Auteur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for campaign in campaigns %}
+                    <tr>
+                        <td><a href="{{ path('campaign_show', {id: campaign.id}) }}">{{ campaign.title }}</a></td>
+                        <td>{{ campaign.content }}</td>
+                        <td>{{ campaign.goal }}</td>
+                        <td>{{ campaign.author }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(campaigns) }}
+        </div>
+    </div>
+{% endblock %}
